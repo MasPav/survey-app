@@ -97,9 +97,9 @@
             <label for="age">Age</label>
             <input type="number" class="form-control" id="age"
                 placeholder="Your age" min="18"/>
+                <small style="color: #f0ad4e"><strong>Sorry, you are not allowed to continue if less than 18 years.</strong></small>
         </div>
         <button class="btn btn-primary proceed-btn" onclick="proceedToForm()">Proceed <i class="fa fa-caret-right" style="margin-left: 2px;"></i></button>
-        <p style="color: #EF9A9A; display:none;" class="invaid-age-error"><strong>You have to be 18 years and above to continue</strong></p>
         </div>
         </div>
         <div class="col-md-12 form-box surveyForm" style="display: none;">

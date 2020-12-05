@@ -179,9 +179,6 @@ const proceedToForm = (event) => {
         $('.surveyForm').show('slow');
         $('.pre-form-settings').hide('slow');
         $('#hidden-age-input').val($('.age-entry #age').val());
-        console.log($('#hidden-age-input').val());
-    } else {
-        $('.invaid-age-error').show('slow');
     }
 }
 const toggleConditionalDivs = (event, element) => {
