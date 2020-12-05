@@ -56,20 +56,31 @@
       </div>
 
       <div class="row">
-        <div class="form-group text-center" style="color: whitesmoke;">
+        <div class="pre-form-settings">
+            <div class="form-group text-center" style="color: whitesmoke;">
           <label>Do you agree to participate in this survey</label><br />
           <label class="radio-inline">
             <input type="radio" name="section1[agreeToParticipate]" id="agreeToParticipateYes" value="Yes"
-              onclick="toggleConditionalDivs(event, $(this))" />
+              onclick="toggleAgeEntry(event)" />
             <span>Yes</span>
           </label>
           <label class="radio-inline">
             <input type="radio" name="section1[agreeToParticipate]" id="agreeToParticipateNo" value="No"
-              onclick="toggleConditionalDivs(event, $(this))" />
+              onclick="toggleAgeEntry(event)" />
             <span>No</span>
           </label>
         </div>
-        <div class="col-md-12 form-box conditionalDivs">
+        <div style="color: whitesmoke; width: 24%; margin-left: auto; margin-right: auto; display:none;" class="age-entry">
+            <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" class="form-control" id="age"
+                placeholder="kindly complete if 18 years and above" min="18"/>
+        </div>
+        <button class="btn btn-primary" onclick="proceedToForm()">Proceed <i class="fa fa-caret-right" style="margin-left: 2px;"></i></button>
+        <p style="color: #EF9A9A; display:none;" class="invaid-age-error"><strong>You have to be 18 years and above to continue</strong></p>
+        </div>
+        </div>
+        <div class="col-md-12 form-box surveyForm" style="display: none;">
           <form role="form" action="{{ route('submitForm') }}" method="post" class="f1">
             @csrf
             <div class="f1-steps">
@@ -109,11 +120,33 @@
             <div class="form-wrapper">
               <!-- Bio Start -->
               <fieldset>
+                  <input type="hidden" min="18" id="hidden-age-input" name="bioInfo[age]">
+                <div class="row">
+                  <div class="form-group col-md-12">
+                        <label for="education">Select your level of education</label>
+                        <select class="form-control" id="education" name="bioInfo[education]" onchange="toggleDropdownOtherText(event, $(this))">
+                        <option value="No schooling">No schooling </option>
+                        <option value="Primary">Primary </option>
+                        <option value="High school">High school </option>
+                        <option value="High school">High school </option>
+                        <option value="Bachelor">Bachelor </option>
+                        <option value="Vocational/Technical">Vocational/Technical  </option>
+                        <option value="Masters">Masters  </option>
+                        <option value="Doctorate">Doctorate  </option>
+                        <option value="Other">Other  </option>
+                        </select>
+                        <div class="otherTextBox" style="margin-top: 5px;">
+                    <input type="text" class="form-control" disabled placeholder="Your Answer"
+                      name="bioInfo[education]">
+                  </div>
+                    </div>
+                </div>
+
                 <div class="row">
                   <div class="form-group col-md-6">
-                    <label for="age">Age</label>
-                    <input type="number" name="bioInfo[age]" class="form-control" id="age"
-                      placeholder="kindly complete if 18 years and above" min="18" />
+                    <label for="country">Country of residence</label>
+                    <input type="text" class="form-control" id="country" placeholder="Your Answer"
+                      name="bioInfo[country]" />
                   </div>
                   <div class="form-group col-md-6">
                     <label for="gender">Gender</label>
@@ -124,29 +157,25 @@
                     </select>
                   </div>
                 </div>
-
                 <div class="row">
                   <div class="form-group col-md-6">
-                    <label for="country">Where do you live (country)</label>
-                    <input type="text" class="form-control" id="country" placeholder="Your Answer"
-                      name="bioInfo[country]" />
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="education">What is your level of education</label>
-                    <input type="text" class="form-control" id="education" placeholder="Your Answer"
-                      name="bioInfo[education]" />
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="form-group col-md-6">
-                    <label for="profession">What is your profession</label>
+                    <label for="profession">Profession</label>
                     <input type="text" class="form-control" id="profession" placeholder="Your Answer"
                       name="bioInfo[profession]" />
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="native-language">What is your native language</label>
-                    <input type="text" class="form-control" id="native-language" placeholder="Your Answer"
-                      name="bioInfo[native_language]" />
+                      <label for="language">Select your official language</label>
+                        <select class="form-control" id="language" name="bioInfo[language]" onchange="toggleDropdownOtherText(event, $(this))">
+                            <option value="English">English </option>
+                            <option value="French">French </option>
+                            <option value="Spanish">Spanish </option>
+                            <option value="Chinese">Chinese </option>
+                            <option value="Other">Other </option>
+                        </select>
+                    <div class="otherTextBox" style="margin-top: 5px;">
+                    <input type="text" class="form-control" disabled placeholder="Your Answer"
+                      name="bioInfo[language]">
+                  </div>
                   </div>
                 </div>
                 <div class="f1-buttons">
@@ -1262,11 +1291,11 @@
                   <label>Do you play video game</label><br />
                   <label class="radio-inline" for="playVideoGameyes">
                     <input type="radio" name="activity[Do you play video game]" id="playVideoGameyes" value="Yes"
-                      onclick="toggleConditionalDivs(event, $(this))" />
+                      onclick="toggleConditionalDivs(event, $(this))"/>
                     <span>Yes</span>
                   </label>
                   <label class="radio-inline" for="playVideoGameno">
-                    <input type="radio" name="activity[Do you play video game]" id="playVideoGameno" value="No"
+                    <input type="radio" name="activity[Do you play video game]" id="playVideoGameno" value="No" checked
                       onclick="toggleConditionalDivs(event, $(this))" />
                     <span>No</span>
                   </label>
@@ -1356,7 +1385,7 @@
                     <span>Yes</span>
                   </label>
                   <label class="radio-inline" for="useTheInternetno">
-                    <input type="radio" name="activity[Do you use the internet]" id="useTheInternetno" value="No"
+                    <input type="radio" name="activity[Do you use the internet]" id="useTheInternetno" value="No" checked
                       onclick="toggleConditionalDivs(event, $(this))" />
                     <span>No</span>
                   </label>
@@ -1516,7 +1545,7 @@
                   <label class="radio-inline" for="gamePlayEffectno">
                     <input type="radio"
                       name="activity[Have you noticed any physical, psychological, academic or work effects on you due to video game playing or internet ativity']"
-                      id="gamePlayEffectno" value="No" onclick="toggleConditionalDivs(event, $(this))" />
+                      id="gamePlayEffectno" value="No" checked onclick="toggleConditionalDivs(event, $(this))" />
                     <span>No</span>
                   </label>
                 </div>

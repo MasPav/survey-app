@@ -165,8 +165,47 @@ const toggleOtherTextbox = (event, element) => {
         otherTextbox.find("input").attr("disabled", false) :
         otherTextbox.find("input").attr("disabled", true);
 };
+const toggleAgeEntry = (event, element) => {
+    if(event.target.value === 'Yes') {
+       $('.age-entry').show('slow')
+    } else {
+        $('.age-entry').hide('slow');
+        $('.surveyForm').hide('slow');
+        $('.invaid-age-error').hide('slow');
+    }
+};
+const proceedToForm = (event) => {
+    if($('.age-entry #age').val() >= 18) {
+        $('.surveyForm').show('slow');
+        $('.pre-form-settings').hide('slow');
+        $('#hidden-age-input').val($('.age-entry #age').val());
+        console.log($('#hidden-age-input').val());
+    } else {
+        $('.invaid-age-error').show('slow');
+    }
+}
 const toggleConditionalDivs = (event, element) => {
     event.target.value === "Yes" ?
         element.parent().parent().next().show("slow") :
         element.parent().parent().next().hide("slow");
 };
+
+const toggleDropdownOtherText = (event, element) => {
+     const otherTextbox = element.next();
+    if(element.children("option:selected").val() === 'Other') {
+        otherTextbox.find("input").attr("disabled", false);
+        otherTextbox.show('slow');
+    } else {
+        otherTextbox.hide('slow');
+        otherTextbox.find("input").attr("disabled", true);
+    }
+    // if(element.children("option:selected").val() === 'Other') {
+    //     console.log(element.next());
+    //     const otherTextbox = element.next();
+    //     otherTextbox.find("input").attr("disabled", false);
+    //     otherTextbox.show('slow');
+    // } else {
+    //     otherTextbox.find("input").attr("disabled", true);
+    //    otherTextbox.hide('slow');
+    // }
+}
