@@ -328,7 +328,7 @@ ul.navbar-nav {
     }
 }
 
-@media (max-width: 415px) {
+@media (max-width: 480px) {
     .age-entry {
         width: 90% !important;
     }
@@ -368,6 +368,11 @@ ul.navbar-nav {
 
     table {
         font-size: small;
+    }
+}
+@media (max-width: 767px) {
+    .form-wrapper fieldset {
+        width: 100% !important;
     }
 }
 
