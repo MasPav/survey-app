@@ -202,6 +202,7 @@ const toggleDropdownOtherText = (event, element) => {
 }
 
 $('.surveyForm form').on('submit', (e) => {
+    $('.btn-submit').attr('disabled', true);
     $('.container').hide('slow');
     $('.loader-wrapper').show('slow');
 })
