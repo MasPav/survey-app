@@ -28,7 +28,11 @@
 <body>
   <!-- Top content -->
   <div class="top-content">
-    <div class="container">
+      <div class="loader-wrapper" style="display: none;">
+          <div class="loader"></div>
+      <p><strong>Please Wait...</strong></p>
+      </div>
+      <div class="container">
       @if (\Session::has('thankYou'))
           <div style="height: 60vh; margin-top: auto; margin-bottom: auto; padding-top: 15%;">
             <h1>Thank You!</h1>
@@ -75,8 +79,8 @@
 
       <div class="row">
         <div class="pre-form-settings">
-            <div class="form-group text-center" style="color: whitesmoke;">
-          <label>Do you agree to participate in this survey</label><br />
+            <div class="form-group text-center" style="color: white;">
+          <label style="font-weight: normal;">Do you agree to participate in this survey</label><br />
           <label class="radio-inline">
             <input type="radio" name="section1[agreeToParticipate]" id="agreeToParticipateYes" value="Yes"
               onclick="toggleAgeEntry(event)" />
@@ -99,7 +103,7 @@
         </div>
         </div>
         <div class="col-md-12 form-box surveyForm" style="display: none;">
-          <form role="form" action="{{ route('submitForm') }}" method="post" class="f1">
+          <form role="form" action="{{ route('submitForm') }}" method="post" class="f1 ">
             @csrf
             <div class="f1-steps">
               <div class="f1-progress">
