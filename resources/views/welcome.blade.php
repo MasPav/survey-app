@@ -32,7 +32,7 @@
       @if (!\Session::has('thankYou'))
           <div style="height: 60vh; margin-top: auto; margin-bottom: auto; padding-top: 15%;">
             <h1>Thank You!</h1>
-            <i class="fa fa-check text-primary fa-4x"></i>
+            <i class="fa fa-thumbs-up text-primary fa-4x"></i>
             <p><strong>Thank you for taking the time to complete this survey. <br> We truly value the information you have provided</strong></p>
             <p>For further information kindly
                 contact us on
