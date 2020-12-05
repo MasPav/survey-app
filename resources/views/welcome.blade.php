@@ -94,7 +94,7 @@
             <input type="number" class="form-control" id="age"
                 placeholder="Your age" min="18"/>
         </div>
-        <button class="btn btn-primary" onclick="proceedToForm()">Proceed <i class="fa fa-caret-right" style="margin-left: 2px;"></i></button>
+        <button class="btn btn-primary proceed-btn" onclick="proceedToForm()">Proceed <i class="fa fa-caret-right" style="margin-left: 2px;"></i></button>
         <p style="color: #EF9A9A; display:none;" class="invaid-age-error"><strong>You have to be 18 years and above to continue</strong></p>
         </div>
         </div>
