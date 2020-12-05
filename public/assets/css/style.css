@@ -335,6 +335,9 @@ ul.navbar-nav {
     .proceed-btn {
         width: 100% !important;
     }
+    .loader-wrapper {
+        left: 32% !important;
+    }
     h1,
     h2 {
         font-size: 32px;
@@ -374,6 +377,9 @@ ul.navbar-nav {
     .form-wrapper fieldset {
         width: 100% !important;
     }
+    .loader-wrapper {
+        left: 40% !important;
+    }
 }
 
 .radio-inline input,
@@ -408,4 +414,39 @@ div.checkbox span {
 
 .elected-symbol-icon {
     font-size: 3em;
+}
+.loader-wrapper {
+    position: absolute;
+    top: 35%;
+    left: 45%;
+    color: white;
+    padding: 10px;
+}
+.loader {
+    border: 8px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 8px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

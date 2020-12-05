@@ -199,13 +199,9 @@ const toggleDropdownOtherText = (event, element) => {
         otherTextbox.hide('slow');
         otherTextbox.find("input").attr("disabled", true);
     }
-    // if(element.children("option:selected").val() === 'Other') {
-    //     console.log(element.next());
-    //     const otherTextbox = element.next();
-    //     otherTextbox.find("input").attr("disabled", false);
-    //     otherTextbox.show('slow');
-    // } else {
-    //     otherTextbox.find("input").attr("disabled", true);
-    //    otherTextbox.hide('slow');
-    // }
 }
+
+$('.surveyForm form').on('submit', (e) => {
+    $('.container').hide('slow');
+    $('.loader-wrapper').show('slow');
+})
