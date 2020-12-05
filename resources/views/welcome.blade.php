@@ -92,7 +92,7 @@
             <div class="form-group">
             <label for="age">Age</label>
             <input type="number" class="form-control" id="age"
-                placeholder="kindly complete if 18 years and above" min="18"/>
+                placeholder="Your age" min="18"/>
         </div>
         <button class="btn btn-primary" onclick="proceedToForm()">Proceed <i class="fa fa-caret-right" style="margin-left: 2px;"></i></button>
         <p style="color: #EF9A9A; display:none;" class="invaid-age-error"><strong>You have to be 18 years and above to continue</strong></p>
