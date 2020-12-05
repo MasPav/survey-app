@@ -16,13 +16,31 @@
   <link rel="stylesheet" href="{{ asset('assets/css/form-elements.css') }} " />
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }} " />
   <link rel="shortcut icon" href="{{ asset('assets/ico/favicon.png') }} " />
+  @if (!\Session::has('thankYou'))
+      <style>
+          body {
+              background-color: white !important;
+          }
+      </style>
+  @endif
 </head>
 
 <body>
   <!-- Top content -->
   <div class="top-content">
     <div class="container">
-      <div class="row">
+      @if (!\Session::has('thankYou'))
+          <div style="height: 60vh; margin-top: auto; margin-bottom: auto; padding-top: 15%;">
+            <h1>Thank You!</h1>
+            <i class="fa fa-check text-primary fa-4x"></i>
+            <p><strong>Thank you for taking the time to complete this survey. <br> We truly value the information you have provided</strong></p>
+            <p>For further information kindly
+                contact us on
+                <strong><a href="mailto:ernest.okyere-twum@parisdescartes.fr"
+                  style="color: blue;"><em>ernest.okyere-twum@parisdescartes.fr</em></a></strong></p>
+        </div>
+      @else
+          <div class="row">
         <div class="col-sm-8 col-sm-offset-2 text">
           <h1>
             Exploring the impact of everyday life events on affective state
@@ -1615,6 +1633,7 @@
           </form>
         </div>
       </div>
+      @endif
     </div>
   </div>
 
