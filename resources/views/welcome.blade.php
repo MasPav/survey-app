@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
     integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
     crossorigin="anonymous" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
   <link rel="stylesheet" href="{{ asset('assets/css/form-elements.css') }} " />
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }} " />
   <link rel="shortcut icon" href="{{ asset('assets/ico/favicon.png') }} " />
@@ -31,6 +32,12 @@
       <div class="loader-wrapper" style="display: none;">
           <div class="loader"></div>
       <p><strong>Please Wait...</strong></p>
+      </div>
+      <div class="notification-bar">
+          <span class="notification-text">
+              <strong>Please fill out all entries to continue</strong>
+          </span>
+          <span class="fa fa-times notification-close" onclick="closeNotifier($(this))"></span>
       </div>
       <div class="container">
       @if (\Session::has('thankYou'))
@@ -82,12 +89,12 @@
             <div class="form-group text-center" style="color: white;">
           <label style="font-weight: normal;">Do you agree to participate in this survey</label><br />
           <label class="radio-inline">
-            <input type="radio" name="section1[agreeToParticipate]" id="agreeToParticipateYes" value="Yes"
+            <input type="radio" id="agreeToParticipateYes" value="Yes"
               onclick="toggleAgeEntry(event)" />
             <span>Yes</span>
           </label>
           <label class="radio-inline">
-            <input type="radio" name="section1[agreeToParticipate]" id="agreeToParticipateNo" value="No"
+            <input type="radio" id="agreeToParticipateNo" value="No"
               onclick="toggleAgeEntry(event)" />
             <span>No</span>
           </label>
@@ -97,7 +104,7 @@
             <label for="age">Age</label>
             <input type="number" class="form-control" id="age"
                 placeholder="Your age" min="18"/>
-                <small style="color: #f0ad4e"><strong>Sorry, you are not allowed to continue if less than 18 years.</strong></small>
+                <small style="color: #f0ad4e" id="age-error"><strong>Sorry, you are not allowed to continue if less than 18 years.</strong></small>
         </div>
         <button class="btn btn-primary proceed-btn" onclick="proceedToForm()">Proceed <i class="fa fa-caret-right" style="margin-left: 2px;"></i></button>
         </div>
@@ -140,12 +147,13 @@
               </div>
             </div>
             <div class="form-wrapper">
+                <p><strong>Please fill out all fields.</strong></p>
               <!-- Bio Start -->
-              <fieldset>
+              <fieldset class="bioSection">
                   <input type="hidden" min="18" id="hidden-age-input" name="bioInfo[age]">
                 <div class="row">
                   <div class="form-group col-md-12">
-                        <label for="education">Select your level of education</label>
+                        <label for="education">Level of education</label>
                         <select class="form-control" id="education" name="bioInfo[education]" onchange="toggleDropdownOtherText(event, $(this))">
                         <option value="No schooling">No schooling </option>
                         <option value="Primary">Primary </option>
@@ -158,8 +166,6 @@
                         <option value="Other">Other  </option>
                         </select>
                         <div class="otherTextBox" style="margin-top: 5px;">
-                    <input type="text" class="form-control" disabled placeholder="Your Answer"
-                      name="bioInfo[education]">
                   </div>
                     </div>
                 </div>
@@ -168,7 +174,7 @@
                   <div class="form-group col-md-6">
                     <label for="country">Country of residence</label>
                     <input type="text" class="form-control" id="country" placeholder="Your Answer"
-                      name="bioInfo[country]" />
+                      name="bioInfo[country]"/>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="gender">Gender</label>
@@ -186,7 +192,7 @@
                       name="bioInfo[profession]" />
                   </div>
                   <div class="form-group col-md-6">
-                      <label for="language">Select your official language</label>
+                      <label for="language">Mother Tongue</label>
                         <select class="form-control" id="language" name="bioInfo[language]" onchange="toggleDropdownOtherText(event, $(this))">
                             <option value="English">English </option>
                             <option value="French">French </option>
@@ -195,15 +201,10 @@
                             <option value="Other">Other </option>
                         </select>
                     <div class="otherTextBox" style="margin-top: 5px;">
-                    <input type="text" class="form-control" disabled placeholder="Your Answer"
-                      name="bioInfo[language]">
                   </div>
                   </div>
                 </div>
                 <div class="f1-buttons">
-                  <button type="button" class="btn btn-previous">
-                    Previous
-                  </button>
                   <button type="button" class="btn btn-next btn-primary">
                     Next
                   </button>
@@ -211,7 +212,7 @@
               </fieldset>
               <!-- Section 1 End -->
               <!-- Test Start -->
-              <fieldset style="width: 80%;">
+              <fieldset style="width: 80%;" class="testSection">
                 <div class="row begin-test-div">
                   <div class="panel panel-default">
                     <div class="panel-heading">
@@ -323,9 +324,8 @@
                 </div>
               </fieldset>
               <!-- Test End -->
-
               <!-- Words Start -->
-              <fieldset>
+              <fieldset class="wordsSection">
                 <h4>
                   This task has a time limit and we will appreciate if you
                   keep the time limit for us.
@@ -357,7 +357,7 @@
               </fieldset>
               <!-- Words 2 End -->
                 <!-- Problems Starts -->
-              <fieldset style="width: 80%;">
+              <fieldset style="width: 80%;" class="problemsSection">
                 <h4>
                   How often have you been bothered by any of the following
                   problems recently
@@ -698,7 +698,7 @@
               </fieldset>
               <!-- Problems End -->
               <!-- Concerns Starts -->
-              <fieldset style="width: 80%;">
+              <fieldset style="width: 80%;" class="concernsSection">
                 <h4>
                   How have you been concerned by the following problems
                 </h4>
@@ -965,7 +965,7 @@
               </fieldset>
               <!-- Concerns End -->
               <!-- Ratings Starts -->
-              <fieldset style="width: 80%;">
+              <fieldset style="width: 80%;" class="ratingsSection">
                 <h4>
                   Please kindly rate the severity of your sleep patterns
                   recently
@@ -1308,8 +1308,8 @@
               </fieldset>
               <!-- Ratings End -->
               <!-- Activity Starts -->
-              <fieldset style="width: 80%;">
-                <div class="form-group">
+                <fieldset style="width: 80%;" class="activitySection">
+                <div class="form-group firstSet">
                   <label>Do you play video game</label><br />
                   <label class="radio-inline" for="playVideoGameyes">
                     <input type="radio" name="activity[Do you play video game]" id="playVideoGameyes" value="Yes"
@@ -1324,15 +1324,16 @@
                 </div>
                 <div class="form-group row col-md-12 conditionalDivs">
                   <h4>What devices do you use in playing video game. Select as many as applicable</h4>
-                  <div class="checkbox">
-                    <label><input type="checkbox"
-                        name="activity[What devices do you use in playing video game. Select as many as applicable][]"
-                        value="Computer/Laptop"><span>Computer/Laptop</span></label>
-                  </div>
-                  <div class="checkbox">
-                    <label><input type="checkbox"
-                        name="activity[What devices do you use in playing video game. Select as many as applicable][]"
-                        value="Play Station"><span>Play Station</span></label>
+                  <div class="first">
+                      <div class="checkbox">
+                        <label><input type="checkbox"
+                            name="activity[What devices do you use in playing video game. Select as many as applicable][]"
+                            value="Computer/Laptop"><span>Computer/Laptop</span></label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox"
+                            name="activity[What devices do you use in playing video game. Select as many as applicable][]"
+                            value="Play Station"><span>Play Station</span></label>
                   </div>
                   <div class="checkbox">
                     <label><input type="checkbox"
@@ -1347,9 +1348,11 @@
                     <input type="text" class="form-control" disabled placeholder="Your Answer"
                       name="activity[What devices do you use in playing video game. Select as many as applicable][]">
                   </div>
+                  </div>
                   <br>
                   <h4>What kind of games do you play. Select as many as applicable</h4>
-                  <div class="checkbox">
+                  <div class="second">
+                      <div class="checkbox">
                     <label><input type="checkbox"
                         name="activity[What kind of games do you play. Select as many as applicable][]"
                         value="Computer/Laptop"><span>Action</span></label>
@@ -1397,9 +1400,10 @@
                     <input type="text" class="form-control" disabled placeholder="Your Answer"
                       name="activity[What kind of games do you play. Select as many as applicable][]">
                   </div>
+                  </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group secondSet">
                   <label>Do you use the internet</label><br />
                   <label class="radio-inline" for="useTheInternetyes">
                     <input type="radio" name="activity[Do you use the internet]" id="useTheInternetyes" value="Yes"
@@ -1518,8 +1522,7 @@
                       </tr>
                     </tbody>
                   </table>
-                </div>
-                <div class="form-group row col-md-12">
+                  <div class="form-group row col-md-12">
                   <h4>What activities do you often engage on the internet. Select as many as applicable</h4>
                   <div class="checkbox">
                     <label><input type="checkbox"
@@ -1555,7 +1558,8 @@
                       name="activity[What activities do you often engage on the internet. Select as many as applicable][]">
                   </div>
                 </div>
-                <div class="form-group">
+                </div>
+                <div class="form-group thirdSet">
                   <label>Have you noticed any physical, psychological, academic or work effects on you due to video game
                     playing or internet activity</label><br />
                   <label class="radio-inline" for="gamePlayEffectyes">
