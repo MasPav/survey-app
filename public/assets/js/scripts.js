@@ -1,3 +1,4 @@
+let wordsSectionTimeUp = false;
 function scroll_to_class(element_class, removed_height) {
   var scroll_to = $(element_class).offset().top - removed_height;
   if ($(window).scrollTop() != scroll_to) {
@@ -45,23 +46,22 @@ jQuery(document).ready(function () {
 
   // next step
   $(".f1 .btn-next").on("click", function () {
-    var parent_fieldset = $(this).parents("fieldset");
+    const parent_fieldset = $(this).parents("fieldset");
+    if(!passedValidation(parent_fieldset)) {
+        if(!$('.notification-bar').is(':visible')) {
+            $('.notification-bar').slideToggle();
+        } else {
+           shake($('.notification-bar'));
+        }
+        return false;
+    }
+    if($('.notification-bar').is(':visible')){
+       $('.notification-bar').slideToggle();
+    }
     var next_step = true;
     // navigation steps / progress steps
     var current_active_step = $(this).parents(".f1").find(".f1-step.active");
     var progress_line = $(this).parents(".f1").find(".f1-progress-line");
-
-    // fields validation
-    // parent_fieldset.find('input[type="text"], input[type="password"], textarea').each(function() {
-    // 	if( $(this).val() == "" ) {
-    // 		$(this).addClass('input-error');
-    // 		next_step = false;
-    // 	}
-    // 	else {
-    // 		$(this).removeClass('input-error');
-    // 	}
-    // });
-    // fields validation
 
     if (next_step) {
       parent_fieldset.fadeOut(400, function () {
@@ -80,6 +80,107 @@ jQuery(document).ready(function () {
       });
     }
   });
+
+  const passedValidation = (fieldset) => {
+      let result = true;
+      const notificationTextEl = $('.notification-text strong');
+      switch (true) {
+            case fieldset.hasClass('problemsSection'):
+            case fieldset.hasClass('concernsSection'):
+                notificationTextEl.text('Please fill out all entries to continue');
+            result = arrayAnswersValidation(fieldset, result);
+          break;
+          case fieldset.hasClass('ratingsSection'):
+              notificationTextEl.text('Please fill out all entries to continue')
+              if($(fieldset).find('div.radio input[type=radio]:checked').size() > 0) {
+                result = arrayAnswersValidation(fieldset, result);
+              } else {
+                  result = false;
+              }
+          break;
+          case fieldset.hasClass('activitySection'):
+              notificationTextEl.text('Please fill out all entries to continue')
+              result = activitySectionValidation(fieldset);
+              break;
+          default:
+              if(fieldset.hasClass('testSection')) {
+                notificationTextEl.text('Please complete the test to continue');
+              } else if (fieldset.hasClass('wordsSection')){
+                notificationTextEl.text('Please type the words to continue');
+                if(!wordsSectionTimeUp) {
+                    result = false;
+                    return
+                }
+              } else {
+                notificationTextEl.text('Please fill out all entries to continue')
+              }
+             result = normValidation(fieldset, result);
+              break;
+      }
+
+    return result;
+  }
+  const normValidation = (fieldset, result) => {
+    fieldset.find('[name]').each(function(index, element) {
+            if($(element).val() === '') {
+                result = false;
+                return;
+            }
+        });
+        return result;
+  }
+  const activitySectionValidation = (fieldset) => {
+      if($(fieldset).find('.firstSet input[type=radio]:checked').val() === 'Yes') {
+          const condDivs = $(fieldset).find('.firstSet').next();
+          const firstConDiv = condDivs.find('div.first');
+          const secondConDiv = condDivs.find('div.second');
+          if(firstConDiv.find('input[type=checkbox]:checked').size() <= 0 || secondConDiv.find('input[type=checkbox]:checked').size() <= 0) {
+              return false;
+          }
+      }
+      if($(fieldset).find('.secondSet input[type=radio]:checked').val() === 'Yes'){
+        const condDivs = $(fieldset).find('.secondSet').next();
+        const checkedRadios = arrayAnswersValidation($(condDivs).find('table'));
+        const checkedboxes = condDivs.find('input[type=checkbox]:checked').size();
+        if(!checkedRadios || checkedboxes <= 0) {
+            return false;
+        }
+      }
+      if($(fieldset).find('.thirdSet input[type=radio]:checked').val() === 'Yes') {
+          const condDivs = $(fieldset).find('.thirdSet').next();
+          const checkedOptions = condDivs.find('input[type=checkbox]:checked').size();
+          if(checkedOptions <= 0) {
+              return false;
+          }
+      }
+      return true;
+  }
+  const arrayAnswersValidation = (fieldset, result) => {
+      const rows = fieldset.find('tbody tr');
+      let rowI, abort = false;
+      for (rowI = 0; rowI <= rows.size() - 1 && !abort; rowI++) {
+          const checkedOptions = $(rows[rowI]).find('input[type=radio]:checked').size();
+            if(checkedOptions <= 0) {
+                abort = true;
+                result = false
+            } else {
+                result = true;
+            }
+        }
+        return result;
+  }
+
+  function shake(element) {
+        var interval = 100;
+        var distance = 10;
+        var times = 4;
+        for (var iter = 0; iter < (times + 1) ; iter++) {
+            element.animate({
+                left: ((iter % 2 == 0 ? distance : distance * -1))
+            }, interval);
+        }
+        element.animate({ left: 0 }, interval);
+    }
 
   // previous step
   $(".f1 .btn-previous").on("click", function () {
@@ -107,18 +208,22 @@ jQuery(document).ready(function () {
 
   // submit
   $(".f1").on("submit", function (e) {
-    // fields validation
-    // $(this)
-    //   .find('input[type="text"], input[type="password"], textarea')
-    //   .each(function () {
-    //     if ($(this).val() == "") {
-    //       e.preventDefault();
-    //       $(this).addClass("input-error");
-    //     } else {
-    //       $(this).removeClass("input-error");
-    //     }
-    //   });
-    // fields validation
+        e.preventDefault();
+    if(!passedValidation($('.activitySection'))) {
+        if(!$('.notification-bar').is(':visible')) {
+            $('.notification-bar').slideToggle();
+        } else {
+           shake($('.notification-bar'));
+        }
+        return false;
+    }
+    if($('.notification-bar').is(':visible')){
+       $('.notification-bar').slideToggle();
+    }
+    $('.btn-submit').attr('disabled', true);
+    $('.container').hide('slow');
+    $('.loader-wrapper').show('slow');
+    this.submit();
   });
 
   $(".timedEntries").on("keyup", function () {
@@ -154,6 +259,7 @@ function handleTimer(display, textareaEl) {
     if (--timer < 0) {
       textareaEl.attr("readonly", true);
       display.hide();
+      wordsSectionTimeUp = true;
       clearInterval(interval);
     }
   }, 1000);

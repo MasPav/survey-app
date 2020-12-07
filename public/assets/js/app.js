@@ -198,8 +198,6 @@ const toggleDropdownOtherText = (event, element) => {
     }
 }
 
-$('.surveyForm form').on('submit', (e) => {
-    $('.btn-submit').attr('disabled', true);
-    $('.container').hide('slow');
-    $('.loader-wrapper').show('slow');
-})
+const closeNotifier = (element) => {
+    element.parent().slideToggle();
+}
