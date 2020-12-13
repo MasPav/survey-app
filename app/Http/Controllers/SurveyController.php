@@ -13,9 +13,9 @@ class SurveyController extends Controller
     public function submit(Request $request)
     {
         try {
-            DB::table('responses')->insert([
-                'answers' => json_encode($request->except('_token'))
-            ]);
+            // DB::table('responses')->insert([
+            //     'answers' => json_encode($request->except('_token'))
+            // ]);
             return Redirect::back()->with('thankYou', "");
         } catch (\Exception $e) {
             Log::warning($e->getMessage());
