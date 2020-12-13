@@ -101,7 +101,7 @@ const onBeginTest = () => {
         } else {
             updateProgressBar(symbolsCount);
         }
-    }, 2000);
+    }, 1400);
 };
 
 const updateProgressBar = (value) => {

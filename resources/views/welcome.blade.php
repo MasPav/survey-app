@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="{{ asset('assets/css/form-elements.css') }} " />
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }} " />
   <link rel="shortcut icon" href="{{ asset('assets/ico/favicon.png') }} " />
-  @if (\Session::has('thankYou'))
+  @if (\Session::has('thankYou') || \Session::has('error'))
       <style>
           body {
               background-color: white !important;
@@ -42,12 +42,18 @@
       <div class="container">
       @if (\Session::has('thankYou'))
           <div style="height: 60vh; margin-top: auto; margin-bottom: auto; padding-top: 15%;">
-            <h1>Thank You!</h1>
+            <h1>Thank you!</h1>
             <i class="fa fa-thumbs-up text-primary fa-4x"></i>
             <p><strong>Thank you for taking the time to complete this survey. <br> We truly value the information you have provided.</strong></p>
             <p>For further information kindly
                 contact us on
                 <strong><a href="mailto:ernest.okyere-twum@parisdescartes.fr"
+                  style="color: blue;"><em>ernest.okyere-twum@parisdescartes.fr</em></a></strong></p>
+        </div>
+        @elseif(\Session::has('error'))
+        <div style="height: 60vh; margin-top: auto; margin-bottom: auto; padding-top: 15%;">
+            <h1><strong>500 <span style="color:#d9534f">Server Error</span></strong></h1>
+            <p><strong>Oops, something went wrong.<br>Feel free to contact us on <a href="mailto:ernest.okyere-twum@parisdescartes.fr"
                   style="color: blue;"><em>ernest.okyere-twum@parisdescartes.fr</em></a></strong></p>
         </div>
       @else
