@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return DB::table('responses')
-        ->select('*')
-        ->get();
     return view('welcome');
 });
 Route::post('/submit-survey', 'SurveyController@submit')->name('submitForm');
