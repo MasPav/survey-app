@@ -14,7 +14,8 @@ class SurveyController extends Controller
     {
         try {
             DB::table('responses')->insert([
-                'answers' => json_encode($request->except('_token'))
+                'answers' => json_encode($request->except('_token')),
+                'added_at' => \Carbon\Carbon::now()->toDateTimeString()
             ]);
             // $responses = Storage::disk('local')->exists('responses.json') ? json_decode(Storage::disk('local')->get('responses.json')) : [];
             // array_push($responses, array_merge($request->except('_token'), ['submitted_on' => date('Y-m-d H:i:s')]));
