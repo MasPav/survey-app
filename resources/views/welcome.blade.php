@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Form</title>
+    <title>Project Survey</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,100,300,500" />
@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="{{ asset('assets/css/form-elements.css') }} " />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }} " />
-    <link rel="shortcut icon" href="{{ asset('assets/ico/favicon.png') }} " />
+    <link rel="shortcut icon" href="{{ asset('assets/ico/default_icon.png') }} " />
     @if (\Session::has('thankYou') || \Session::has('error'))
     <style>
         body {
