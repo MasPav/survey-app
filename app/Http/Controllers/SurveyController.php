@@ -17,9 +17,7 @@ class SurveyController extends Controller
                 'answers' => json_encode($request->except('_token')),
                 'added_on' => \Carbon\Carbon::now()->toDateTimeString()
             ]);
-            // $responses = Storage::disk('local')->exists('responses.json') ? json_decode(Storage::disk('local')->get('responses.json')) : [];
-            // array_push($responses, array_merge($request->except('_token'), ['submitted_on' => date('Y-m-d H:i:s')]));
-            // Storage::disk('local')->put('responses.json', json_encode($responses));
+            Log::warning('Response saved successfully');
             return Redirect::back()->with('thankYou', "");
         } catch (\Exception $e) {
             Log::warning($e->getMessage());
