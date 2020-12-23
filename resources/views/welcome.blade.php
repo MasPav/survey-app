@@ -394,7 +394,7 @@
                             <fieldset style="width: 80%;" class="problemsSection">
                                 <h4>
                                     How often have you been bothered by any of the following
-                                    problems recently
+                                    problems recently in the last 30 days
                                 </h4>
                                 <div style="overflow-x: auto;">
                                     <table class="table table-borderless table-striped">
@@ -734,7 +734,7 @@
                             <!-- Concerns Starts -->
                             <fieldset style="width: 80%;" class="concernsSection">
                                 <h4>
-                                    How have you been concerned by the following problems
+                                    How have you been concerned by the following problems in the last 30 days
                                 </h4>
                                 <div style="overflow-x: auto;">
                                     <table class="table table-borderless table-striped">
@@ -1002,7 +1002,7 @@
                             <fieldset style="width: 80%;" class="ratingsSection">
                                 <h4>
                                     Please kindly rate the severity of your sleep patterns
-                                    recently
+                                    recently in the last 30 days
                                 </h4>
                                 <div style="overflow-x: auto;">
                                     <table class="table table-borderless table-striped">
