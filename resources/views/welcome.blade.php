@@ -98,12 +98,12 @@
                     <div class="form-group text-center" style="color: white;">
                         <label style="font-weight: normal;">Do you agree to participate in this survey</label><br />
                         <label class="radio-inline">
-                            <input type="radio" id="agreeToParticipateYes" value="Yes"
+                            <input type="radio" id="agreeToParticipateYes" value="Yes" name="agreeToParticipate"
                                 onclick="toggleAgeEntry(event)" />
                             <span>Yes</span>
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" id="agreeToParticipateNo" value="No" onclick="toggleAgeEntry(event)" />
+                            <input type="radio" id="agreeToParticipateNo" value="No" onclick="toggleAgeEntry(event)" name="agreeToParticipate"/>
                             <span>No</span>
                         </label>
                     </div>
