@@ -1356,7 +1356,7 @@
                                     </label>
                                     <label class="radio-inline" for="playVideoGameno">
                                         <input type="radio" name="activity[Do you play video game]" id="playVideoGameno"
-                                            value="No" checked onclick="toggleConditionalDivs(event, $(this))" />
+                                            value="No" onclick="toggleConditionalDivs(event, $(this))" />
                                         <span>No</span>
                                     </label>
                                 </div>
@@ -1451,7 +1451,7 @@
                                     </label>
                                     <label class="radio-inline" for="useTheInternetno">
                                         <input type="radio" name="activity[Do you use the internet]"
-                                            id="useTheInternetno" value="No" checked
+                                            id="useTheInternetno" value="No"
                                             onclick="toggleConditionalDivs(event, $(this))" />
                                         <span>No</span>
                                     </label>
@@ -1615,7 +1615,7 @@
                                     <label class="radio-inline" for="gamePlayEffectno">
                                         <input type="radio"
                                             name="activity[Have you noticed any physical, psychological, academic or work effects on you due to video game playing or internet ativity']"
-                                            id="gamePlayEffectno" value="No" checked
+                                            id="gamePlayEffectno" value="No"
                                             onclick="toggleConditionalDivs(event, $(this))" />
                                         <span>No</span>
                                     </label>
