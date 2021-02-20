@@ -29,10 +29,11 @@ class SurveyController extends Controller
     public function getReports()
     {
         try {
-            $formattedResponses = [];
+            $result = [];
             $responses = DB::table('responses')->get();
             $answers = json_decode($responses[0]->answers);
             foreach ($responses as $response) {
+                $formattedResponses = [];
                 $answers = json_decode($response->answers);
                 $formattedResponses = [\Carbon\Carbon::createFromDate($response->added_on)->format('Y-m-d')];
                 $formattedResponses = array_merge($formattedResponses, $this->getObjectValues($answers->bioInfo), $this->getObjectValues($answers->test));
@@ -76,11 +77,13 @@ class SurveyController extends Controller
                 } else {
                     array_push($formattedResponses, '');
                 }
+                array_push($result, $formattedResponses);
             }
-            // return $formattedResponses;
+            // return $result;
             // return ['response' => sizeof($formattedResponses), 'headers' => sizeof($this->getHeaders())];
             $export = new ResponsesExport([
-                [$this->getHeaders(), $formattedResponses],
+                $this->getHeaders(),
+                $result
             ]);
             return Excel::download($export, 'responses.xlsx');
         } catch (\Exception $e) {
