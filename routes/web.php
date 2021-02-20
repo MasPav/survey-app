@@ -16,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/reports', 'SurveyController@getReports')->name('reports');
 Route::post('/submit-survey', 'SurveyController@submit')->name('submitForm');
