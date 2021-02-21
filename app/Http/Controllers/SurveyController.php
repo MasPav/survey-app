@@ -31,7 +31,6 @@ class SurveyController extends Controller
         try {
             $result = [];
             $responses = DB::table('responses')->get();
-            $answers = json_decode($responses[0]->answers);
             foreach ($responses as $response) {
                 $formattedResponses = [];
                 $answers = json_decode($response->answers);
@@ -42,10 +41,10 @@ class SurveyController extends Controller
                 array_push($formattedResponses, $words["'writeManyWords'"], $words["'writeManyLetters'"]);
 
                 $problems = ((array)$answers->problems);
-                $formattedResponses = array_merge($formattedResponses, $this->getObjectValues($problems['How often have you been bothered by any of the following problems recently']));
+                $formattedResponses = array_merge($formattedResponses, $this->getObjectValues($problems['How often have you been bothered by any of the following problems recently'], true));
 
                 $concerns = ((array)$answers->concerns);
-                $formattedResponses = array_merge($formattedResponses, $this->getObjectValues($concerns['How have you been concerned by the following problems']));
+                $formattedResponses = array_merge($formattedResponses, $this->getObjectValues($concerns['How have you been concerned by the following problems'], true));
 
                 $ratings = ((array)$answers->ratings);
                 $sleepData = (array)$ratings['Please kindly rate the severity of your sleep patterns recently'];
@@ -66,7 +65,9 @@ class SurveyController extends Controller
                 }
                 array_push($formattedResponses, $activity['Do you use the internet']);
                 if ($activity['Do you use the internet'] === 'Yes') {
-                    $formattedResponses = array_merge($formattedResponses, $this->getObjectValues($activity['Kindly select the most applicable 1']), $this->getObjectValues($activity['Kindly select the most applicable 2']));
+                    $act1 = (array)$activity['Kindly select the most applicable 1'];
+                    $act2 = (array)$activity['Kindly select the most applicable 2'];
+                    array_push($formattedResponses, $act1['How often do you play VIDEO GAME per day'], $act2['How often do you spend on the INTERNET per day']);
                     array_push($formattedResponses, $this->stringifyArray($activity['What activities do you often engage on the internet. Select as many as applicable']));
                 } else {
                     array_push($formattedResponses, '', '', '');
@@ -79,8 +80,6 @@ class SurveyController extends Controller
                 }
                 array_push($result, $formattedResponses);
             }
-            // return $result;
-            // return ['response' => sizeof($formattedResponses), 'headers' => sizeof($this->getHeaders())];
             $export = new ResponsesExport([
                 $this->getHeaders(),
                 $result
@@ -108,13 +107,36 @@ class SurveyController extends Controller
         }
         return $result;
     }
-    private function getObjectValues($object)
+    private function getObjectValues($object, $convertValues = false)
     {
         $array = (array)$object;
         $values = [];
+        $sum = 0;
         foreach (array_keys($array) as $key) {
-            array_push($values, $array[$key]);
+            $value = '0';
+
+            if($convertValues) {
+                switch ($array[$key]) {
+                    case 'Not at all':
+                        $value = '0';
+                        break;
+                    case 'Several days':
+                        $value = 1;
+                        break;
+                    case 'More than half the days':
+                        $value = 2;
+                        break;
+                        case 'Nearly everyday':
+                            $value = 3;
+                            break;
+                    default:
+                        break;
+                }
+                $sum+=$value;
+            }
+            array_push($values, $convertValues ? $value : $array[$key]);
         }
+        $convertValues ? array_push($values, $sum > 0 ? $sum : '0'): "";
         return $values;
     }
     private function getHeaders()
@@ -139,6 +161,7 @@ class SurveyController extends Controller
             'Trouble concentrating on things such as reading the newspaper(How often have you been bothered by any of the following problems recently)',
             'Moving or speaking so slowly that other people could not have noticed(How often have you been bothered by any of the following problems recently)',
             'Thoughts that you would be better off dead(How often have you been bothered by any of the following problems recently)',
+            'Total',
             'Feeling nervous, anxious(How have you been concerned by the following problems)',
             'Not being able to stop or control worrying(How have you been concerned by the following problems)',
             'Worrying too much about different things(How have you been concerned by the following problems)',
@@ -146,6 +169,7 @@ class SurveyController extends Controller
             'Being so restless that its hard to sit still(How have you been concerned by the following problems)',
             'Becoming easily annoyed or irritable(How have you been concerned by the following problems)',
             'Feeling afraid as if something awful might happen(How have you been concerned by the following problems)',
+            'Total',
             'Difficult falling asleep(Please kindly rate the severity of your sleep patterns recently)',
             'Difficult staying asleep(Please kindly rate the severity of your sleep patterns recently)',
             'Problems waking up too early(Please kindly rate the severity of your sleep patterns recently)',
