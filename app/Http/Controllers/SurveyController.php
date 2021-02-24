@@ -38,7 +38,8 @@ class SurveyController extends Controller
                 $formattedResponses = array_merge($formattedResponses, $this->getObjectValues($answers->bioInfo), $this->getObjectValues($answers->test));
 
                 $words = (array)$answers->words;
-                array_push($formattedResponses, $words["'writeManyWords'"], $words["'writeManyLetters'"]);
+                $wordsCount = $this->getWordsCount($words["'writeManyWords'"]); $lettersCount = $this->getWordsCount($words["'writeManyLetters'"]);
+                array_push($formattedResponses, $words["'writeManyWords'"], $wordsCount, $words["'writeManyLetters'"], $lettersCount);
 
                 $problems = ((array)$answers->problems);
                 $formattedResponses = array_merge($formattedResponses, $this->getObjectValues($problems['How often have you been bothered by any of the following problems recently'], true));
@@ -89,6 +90,9 @@ class SurveyController extends Controller
             Log::warning($e->getMessage());
             return Redirect::back()->with('error', "");
         }
+    }
+    private function getWordsCount($string) {
+        return sizeof(preg_split('/\s+/', $string));
     }
     private function filterCustomerData($str)
     {
@@ -151,7 +155,9 @@ class SurveyController extends Controller
             "Language",
             "Test Score",
             "Written Words",
+            'Total',
             "Written Letters",
+            "Total",
             "Little interest or pleasure in doing things(How often have you been bothered by any of the following problems recently)",
             "Feeling down, depressed or hopeless(How often have you been bothered by any of the following problems recently)",
             "Trouble falling or staying asleep(How often have you been bothered by any of the following problems recently)",
